@@ -26,6 +26,7 @@ public class DBapp {
                 connection = new DataBaseConnection();
                 connection.connectDataBase();
                 UserInputForQuery stores = new UserInputForQuery(connection);
+                stores.addProductsToTable(connection.showProducts());
                 jFrame.setContentPane(stores.getStores());
                 jFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 jFrame.pack();
@@ -37,10 +38,11 @@ public class DBapp {
             public void actionPerformed(ActionEvent e) {
                 connection = new DataBaseConnection();
                 connection.connectDataBase();
-                ShowProducts showProducts = new ShowProducts();
+                ShowProducts showProducts = new ShowProducts(connection);
                 JFrame frame = new JFrame();
                 frame.setContentPane(showProducts.getProducts());
                 showProducts.addToTable(connection.showProducts());
+                showProducts.addToGenreTable(connection.getGenre());
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
@@ -49,9 +51,13 @@ public class DBapp {
         nyBevakningButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                NyBevakning nyBevakning = new NyBevakning();
+                connection = new DataBaseConnection();
+                connection.connectDataBase();
+                NyBevakning nyBevakning = new NyBevakning(connection);
                 JFrame frame = new JFrame();
                 frame.setContentPane(nyBevakning.getJpanel());
+                nyBevakning.addToButikTable(connection.showButiker());
+                nyBevakning.addToProductTable(connection.showProducts());
                 frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
                 frame.pack();
                 frame.setVisible(true);
